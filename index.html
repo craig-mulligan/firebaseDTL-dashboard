@@ -22,44 +22,59 @@
 <script type="text/javascript">
     var ref = new Firebase("https://temp-tracker.firebaseio.com/");
 
-
     ref.once("value", function(snapshot, callback) {
       var list = [];
-      var alltemps = [];
-      var alllabels = [];
-      console.log(snapshot.val());
-      list = snapshot.val();
-      $.each(list, function (index) {
-        console.log(list.index)
-        var year = list[index]
-        $.each(year, function (index) {
-          var day = year[index]
-          $.each(day, function (index) {
-            var log = day[index]
-            alltemps.push(log.temp);
-            alllabels.push(log.time);
+      var temps2013 = [];
+      var temps2014 = [];
+      labels = [];
 
+      list = snapshot.val();
+      var allyears = Object.keys(list);
+      var yearCount = allyears.length;
+     
+      // get data by year
+       year1 = list[2013];
+       year2 = list[2014];
+
+        // first year loop
+        $.each(year1, function (index) {
+          var day = year1[index]
+          // set the labels for 2014
+          var dayslabels = Object.keys(year1[index]);
+          $.each(dayslabels, function (index) {
+            labels.push(dayslabels[index]);
+          });
+
+
+          $.each(day, function (index) {
+            var log = day[index];
+            temps2014.push(log.temp);
+          });
+        }); 
+    
+        
+        // 2nd year loop
+        $.each(year2, function (index) {
+          var day = year2[index]
+          $.each(day, function (index) {
+            var log = day[index];
+            temps2013.push(log.temp);
           });
         });
-      });
+        
     
         new Chartist.Line('.ct-chart', {
-          labels: alllabels,
+          labels: labels,
           series: [
-            alltemps,
-            // [2, 1, 3.5, 7, 3],
-            // [1, 3, 4, -5, 6]
+            temps2014, temps2013
           ]
         });
-        console.log(alltemps);
-        console.log(alllabels);
+
+        
+
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
-
-    
-  
-
       
 </script>
 </body>

@@ -2,80 +2,83 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-    <script src="http://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
-
-
 <body>
+
 <div class="container">
-    <!-- graph -->
-    <h1>Resin tempreture logger</h1>
-    <div class="ct-chart"></div>
-    
-  
-</div>
+  <div class="row">
+    <div class="col-md-12">
+      <h1><span class="glyphicon glyphicon-fire"></span> Resin tempreture log</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Overall</h2>
+        </div>
+        <div class="panel-body">
+          <div class="ct-chart"></div>
+        </div>
+      </div>
+    </div> 
+    <div class="col-md-5">
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Daily Snapshot</h2>
+        </div>
+
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1 id="current"></h1>
+            </div>
+            <div class="col-xs-6">
+              <h4>Latest Temperature</h4>
+              <p id="timeStamp"></p>
+            </div>
+          </div><!-- row -->
+            <hr>
+          <div class="row">
+            <div class="col-xs-6">
+              <h4 id="avg"></h4>
+            </div>
+            <div class="col-xs-6">
+             <h4>Todays Average</h4>
+             <p id="total"></p>
+            </div>
+          </div><!-- row -->
+          <hr>
+          <div class="row">
+            <div class="col-xs-6 min-container">
+             <h4>Min</h4>
+             <h2 id="min"></h2>
+            </div>
+            <div class="col-xs-6 max-container">
+              <h4>Max</h4>
+              <h2 id="max"></h2>
+            </div>
+          </div> <!-- row -->
+            
+          </div>
+        </div> <!-- panel-body -->
+      <div> <!-- col-md-5 -->
+  </div> <!-- row -->
+
+</div> <!-- //container -->
+<div class="today-ct-chart"></div>
+
 <script src="https://cdn.firebase.com/js/client/2.0.1/firebase.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript">
-    var ref = new Firebase("https://temp-tracker.firebaseio.com/");
-
-    ref.once("value", function(snapshot, callback) {
-      var list = [];
-      var temps2013 = [];
-      var temps2014 = [];
-      labels = [];
-
-      list = snapshot.val();
-      var allyears = Object.keys(list);
-      var yearCount = allyears.length;
-     
-      // get data by year
-       year1 = list[2013];
-       year2 = list[2014];
-
-        // first year loop
-        $.each(year1, function (index) {
-          var day = year1[index]
-          // set the labels for 2014
-          var dayslabels = Object.keys(year1[index]);
-          $.each(dayslabels, function (index) {
-            labels.push(dayslabels[index]);
-          });
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/fun.js"></script>
 
 
-          $.each(day, function (index) {
-            var log = day[index];
-            temps2014.push(log.temp);
-          });
-        }); 
-    
-        
-        // 2nd year loop
-        $.each(year2, function (index) {
-          var day = year2[index]
-          $.each(day, function (index) {
-            var log = day[index];
-            temps2013.push(log.temp);
-          });
-        });
-        
-    
-        new Chartist.Line('.ct-chart', {
-          labels: labels,
-          series: [
-            temps2014, temps2013
-          ]
-        });
 
-        
-
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
-      
-</script>
 </body>
 </html>

@@ -8,7 +8,12 @@
 </head>
 <body ng-app="tempLog">
 
-<div class="container">
+<div class="loading col-xs-6 col-xs-offset-3">
+  <h3>Pour yourself a martini, we're getting your data</h3>
+  <img src="/img/ajax.gif"/>
+</div>
+
+<div class="container render">
   <div class="row">
     <div class="col-md-12">
       <h1><span class="glyphicon glyphicon-fire"></span> Resin tempreture log</h1>
@@ -25,59 +30,59 @@
         </div>
       </div>
     </div> 
-    <div class="col-md-5">
+  </div>
+  <div class ="row probes" ng-controller="probesController as probesCtrl">
+  
+    <div class="col-md-5" ng-repeat="probe in probes">
       <div class="panel">
         <div class="panel-heading">
-          <h2>Daily Snapshot</h2>
+          <h2>Daily Snapshot - Device: {{probe.device_id}}</h2>
         </div>
-
         <div class="panel-body">
           <div class="row">
             <div class="col-xs-6">
-              <h1 id="current"></h1>
+              <h1 id="current">{{probe.current}}</h1>
             </div>
             <div class="col-xs-6">
               <h4>Latest Temperature</h4>
-              <p id="timeStamp"></p>
+              <p id="timeStamp">{{probe.currentTime | date:'dd-M-yyyy H:mm'}}</p>
             </div>
           </div><!-- row -->
             <hr>
           <div class="row">
             <div class="col-xs-6">
-              <h4 id="avg"></h4>
+              <h4 id="avg" ng-class="{low: probe.avg < 10, mid: probe.avg > 10 } ">{{probe.avg}}</h4>
             </div>
             <div class="col-xs-6">
              <h4>Todays Average</h4>
-             <p id="total"></p>
+             <p id="total">{{probe.total }}</p>
             </div>
           </div><!-- row -->
           <hr>
           <div class="row">
             <div class="col-xs-6 min-container">
              <h4>Min</h4>
-             <h2 id="min"></h2>
+             <h3 id="min">{{probe.min}}</h3>
             </div>
             <div class="col-xs-6 max-container">
               <h4>Max</h4>
-              <h2 id="max"></h2>
+              <h3 id="max">{{probe.max}}</h3>
             </div>
           </div> <!-- row -->
             
           </div>
         </div> <!-- panel-body -->
       <div> <!-- col-md-5 -->
-  </div> <!-- row -->
+    </div> <!-- row -->
 
 </div> <!-- //container -->
-<div class="today-ct-chart"></div>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/chartist/libdist/chartist.min.js"></script>
 <script src="bower_components/firebase/firebase.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
+<script src="https://cdn.firebase.com/libs/angularfire/0.8.2/angularfire.min.js"></script>
 <script src="js/app.js"></script>
-
-
-
+<script src="js/fun.js"></script>
 </body>
 </html>

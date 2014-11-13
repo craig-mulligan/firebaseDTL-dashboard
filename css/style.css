@@ -30,21 +30,26 @@ h4 {
 
 .panel {
 	background: #fff;
-	border: 1px solid #dedede
+	border: 1px solid #dedede;
+}
+
+.probes {
+	display: none;
 }
 
 .panel-heading {
 	background: #e5e5e5;
 	border-bottom: 1px solid #dedede;
+	overflow: hidden;
 }
 
 .max-container {
 	text-align: center;
 }
-.max-container h2 {
+.max-container h3 {
 	color: #E6626F;
 }
-.min-container h2 {
+.min-container h3 {
 	color: #66AF91;
 }
 
@@ -53,7 +58,16 @@ h4 {
 	border-right: 1px solid #dedede;
 }
 
+.loading {
+	position: absolute;
+	top:30%;
+	text-align: center;
+	z-index: 1;
+}
 
+.render {
+	opacity: .5;
+}
 
 #current, #avg {
 	font-size: 6rem;

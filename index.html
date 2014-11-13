@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/chartist/libdist/chartist.min.js"></script>
 <body ng-app="tempLog">
 
 <div class="loading col-xs-6 col-xs-offset-3">
@@ -29,19 +31,31 @@
           <div class="ct-chart"></div>
         </div>
       </div>
-    </div> 
-  </div>
+    </div>
+     <div class="col-md-5">
+        <div class="panel">
+          <div class="panel-heading">
+            <h2>Daily Snapshot</h2>
+          </div>
+          <div class="panel-body">
+            <div class="ct-chart barBar"></div>
+          </div>
+      </div> <!-- panel 5 -->
+  </div> <!-- row -->
+  </div> <!-- row -->
+
   <div class ="row probes" ng-controller="probesController as probesCtrl">
   
-    <div class="col-md-5" ng-repeat="probe in probes">
+    <div class="col-md-6" ng-repeat="probe in probes">
       <div class="panel">
-        <div class="panel-heading">
-          <h2>Daily Snapshot - Device: {{probe.device_id}}</h2>
+        <div class="panel-heading" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+          <h2 >Daily Snapshot - Device: {{probe.device_no}}</h2>
         </div>
+
         <div class="panel-body">
           <div class="row">
             <div class="col-xs-6">
-              <h1 id="current">{{probe.current}}</h1>
+              <h1 id="current" ng-class="{low: probe.current < 10, mid: probe.current > 10 } ">{{probe.current}}</h1>
             </div>
             <div class="col-xs-6">
               <h4>Latest Temperature</h4>
@@ -49,6 +63,7 @@
             </div>
           </div><!-- row -->
             <hr>
+
           <div class="row">
             <div class="col-xs-6">
               <h4 id="avg" ng-class="{low: probe.avg < 10, mid: probe.avg > 10 } ">{{probe.avg}}</h4>
@@ -69,20 +84,23 @@
               <h3 id="max">{{probe.max}}</h3>
             </div>
           </div> <!-- row -->
-            
+           <hr>
+            <div class="col-md-12">
+             <p>Device ID: {{probe.device_id}}</p>
+            </div>
           </div>
+          
         </div> <!-- panel-body -->
       <div> <!-- col-md-5 -->
     </div> <!-- row -->
-
 </div> <!-- //container -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/chartist/libdist/chartist.min.js"></script>
 <script src="bower_components/firebase/firebase.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="https://cdn.firebase.com/libs/angularfire/0.8.2/angularfire.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/fun.js"></script>
+
+
 </body>
 </html>

@@ -8,12 +8,19 @@ var tempLog = angular.module('tempLog', ["firebase"]);
 	    return memo + num;
 	  }, 0) / arr.length;
 	}
+     
+
+	
+
+	
+
 	// controller gets data for most recent day for each device
 	tempLog.controller('probesController', function($scope, $firebase){
     	var ref = new Firebase("https://resplendent-fire-1683.firebaseio.com/");
-			var probes = [];
+			var probes = []; // probes holds array of probe objects
+
+			var series = []; //data for daily bar graph
 			ref.once("value", function(snapshot, callback) {
-			  // probes holds array of probe objects
 		      var devices = snapshot.val();
 		      var todayArray = [];
 		      var todayLabels = [];
@@ -38,7 +45,7 @@ var tempLog = angular.module('tempLog', ["firebase"]);
 				            		 todayArray.push(probe.temp[index]);
 				            	});
 				            });
-				            console.log(latestTime);
+
 				            ProbeObjs = { 
 				            	"device_id": device_id[d], 
 				            	"today": todayArray, 
@@ -48,10 +55,13 @@ var tempLog = angular.module('tempLog', ["firebase"]);
 				            	"total": todayArray.length,
 				            	'max':_.max(todayArray), 
 				            	'min':_.min(todayArray),
+				            	"device_no": d+1
 				            };
+				           	series.push(average(todayArray));
 				            probes.push(ProbeObjs);
 				            todayArray = [];
 				        }
+
 				        day++;
 			          });
 		        });
@@ -63,6 +73,14 @@ var tempLog = angular.module('tempLog', ["firebase"]);
 			$('.probes').fadeIn();
 			// loads in data once they have be loaded
 			$scope.probes = probes;
+
+			new Chartist.Bar('.barBar', {
+			  labels: ['Device 1', 'Device 2'],
+			  series: [series]
+			});
+
+
+
 			});
 
 			var sync = $firebase(ref);

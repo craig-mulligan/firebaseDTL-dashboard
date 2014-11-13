@@ -2,9 +2,20 @@
 body {
 	background: #f5f5f5;
 }
-
+h1 {
+	font-size: 3rem;
+}
 h2 {
 	margin: 0px;
+	font-weight: 200;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 2rem;
+}
+
+h4 {
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 .low {
 	color: #66AF91;
@@ -23,7 +34,7 @@ h2 {
 }
 
 .panel-heading {
-	background: #f6f6f6;
+	background: #e5e5e5;
 	border-bottom: 1px solid #dedede;
 }
 
